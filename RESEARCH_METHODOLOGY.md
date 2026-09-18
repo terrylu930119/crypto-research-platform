@@ -20,6 +20,8 @@ flowchart TD
 
 **Outcome-blind preflight** — feasibility checks are done without reading future outcome values.
 
+**Review before seal** — an Agent-authored scientific config, criterion set, or downstream design is independently reviewed before its first Git seal. Pre-outcome findings may be corrected with the same reviewer while the draft is still unfrozen.
+
 **Separate measurement from judgment** — a completed run does not automatically mean `ADVANCE`.
 
 **Freeze before holdout** — candidate identity and evaluation rules are fixed before protected evidence is used.
@@ -28,4 +30,4 @@ flowchart TD
 
 **Traceable authority** — configs, run artifacts, and decisions are tied to repository state and validated identities.
 
-The platform also supports bounded agent-operated development research. Automation is allowed to prepare and consume deterministic research facts, but it does not gain authority over Protected Holdout or unrestricted stage advancement.
+The platform also supports bounded agent-operated Development Research. The main Research Agent can move through Stage 1–3 under the campaign control plane, while an independent Reviewer audits scientific drafts before sealing and measured interpretations before progression. Automation still does not gain authority over Protected Holdout or Stage 4 formal measurement.
