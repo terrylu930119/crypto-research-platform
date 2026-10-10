@@ -14,13 +14,9 @@ If an order request times out, the exchange may still have received it. Retrying
 
 The execution model therefore has an explicit `UNKNOWN` state and requires reconciliation before retrying.
 
-## Independent review happens before research is sealed
+## Deterministic checks do not certify scientific judgment
 
-The main Research Agent can draft a hypothesis, control design, criteria, or downstream research contract, but Agent-authored scientific artifacts are reviewed before their first Git seal.
-
-This matters because schema validation cannot detect every research-design mistake. An independent Reviewer can catch mismatches between the written claim and the actual config, confounded controls, or unsupported assumptions while the draft is still outcome-blind and editable.
-
-After formal outcomes exist, the rule changes: review can block progression, but it cannot become a loop for rewriting the interpretation until it passes.
+The campaign validates artifact identity, config and criteria contracts, data readiness, formal provenance, and decision bindings. Those checks cannot establish that a hypothesis is scientifically useful, that its controls avoid confounding, or that its interpretation is persuasive. Independent agent review is optional advice and does not gate the workflow; Human judgment remains necessary for scientific decisions and reserved authority boundaries.
 
 ## Automation stays inside research boundaries
 

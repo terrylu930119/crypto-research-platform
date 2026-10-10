@@ -9,7 +9,7 @@ flowchart TD
     A[Binance 市場資料] --> B[已驗證的本地資料]
     B --> C[受時間邊界限制的研究資料]
     C --> D[研究 Agent 與確定性研究流程]
-    D --> E[封存前的獨立審查]
+    D --> E[封存前的確定性驗證]
     E --> F[寫入 Git 的研究依據]
     F --> G[正式量測與研究決策]
 
@@ -25,6 +25,6 @@ flowchart TD
 
 **執行層**使用強型別資料模型，價格、數量與餘額以 `Decimal` 計算。無法確認結果的委託會進入 `UNKNOWN` 狀態，而不是直接重試。
 
-**治理層**把正式研究、後續階段與版本控制中的設定及研究產物綁定。由研究 Agent 撰寫、會影響研究意義的設定、判定標準與下游設計，都要先由獨立審查 Agent 看過，確認沒有重大問題後才能第一次寫入 Git。只要內容漂移或身分不一致，就直接拒絕繼續。
+**治理層**把正式研究、後續階段與版本控制中的設定及研究產物綁定。deterministic validators 在首次 Git seal 前檢查 schema、criteria 語意、資料能力與 exact artifact identity。這些檢查驗證格式與 authority，不代表科學假說或因果設計已獲認可；同儕意見屬選用。
 
-**自動研究**不會繞過這些邊界。主要研究 Agent 負責提出與修改研究設計，獨立審查 Agent 負責找問題；在還沒看過未來結果時，可以由同一位審查 Agent 反覆確認修正。正式結果出來後，審查就會更嚴格，不能為了「審到通過」而一直改寫研究解讀。
+**自動研究**不會繞過這些邊界。主要研究 Agent 依 bounded control plane 完成 Stage 1–3 開發研究，並可在條件符合時完成 Stage4A 準備。量測後 frozen methodology 與 evidence identity 維持固定；correctness、VOID、已消耗輪次修復、Stage 4 formal 與 Protected Holdout 仍由 Human 決定。

@@ -9,7 +9,7 @@ flowchart TD
     A[Binance market data] --> B[Validated local storage]
     B --> C[Point-in-time research views]
     C --> D[Research Agent + deterministic pipeline]
-    D --> E[Independent pre-seal review]
+    D --> E[Deterministic validation]
     E --> F[Git-sealed research authority]
     F --> G[Formal measurement and decisions]
 
@@ -25,6 +25,6 @@ flowchart TD
 
 **Execution** uses typed domain models and `Decimal` for price, quantity, and balance calculations. Unconfirmed orders can enter an explicit `UNKNOWN` state instead of being retried blindly.
 
-**Governance** binds formal runs and downstream transitions to tracked configs and sealed artifacts. Agent-authored scientific configs, criteria, and downstream design artifacts are independently reviewed before their first Git seal. Drift is treated as an error instead of being silently accepted.
+**Governance** binds formal runs and downstream transitions to tracked configs and sealed artifacts. Deterministic checks validate schema, criteria semantics, data readiness, and exact artifact identity before work advances. These checks do not establish that a scientific hypothesis or causal design is sound.
 
-**Research automation** uses the repository's bounded control plane rather than bypassing it. The main Research Agent authors the work; an independent Reviewer challenges it before sealing. After outcomes are measured, review becomes stricter and cannot be used as an iterative path to rewrite the result until it passes.
+**Research automation** uses the repository's bounded control plane rather than bypassing it. Independent agent review is not a workflow gate. Human or peer critique may inform scientific judgment, but it does not create authority or replace canonical validation. After outcomes are measured, frozen methodology and evidence identity remain fixed; correctness, VOID, consumed-round repair, Stage 4 formal, and Protected Holdout decisions remain Human-controlled.

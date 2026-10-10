@@ -11,12 +11,12 @@ The goal is not to collect backtests. The system is built to make it easier to r
 - Binance Spot and USD-M market data pipelines
 - point-in-time research views
 - staged research from market-event evidence to execution economics and strategy lifecycle
-- bounded autonomous Development Research with an independent pre-seal reviewer
+- bounded autonomous Development Research with deterministic validation and authority checks
 - Git-bound configs, artifacts, and research decisions
 - Testnet execution with explicit handling for uncertain order state
 - strict typing, linting, and automated tests
 
-Agent-operated Development Research is controlled by the same research boundaries: scientific drafts are independently reviewed before their first Git seal, while Protected Holdout and sensitive research decisions remain separately governed.
+Agent-operated Development Research is controlled by the same research boundaries: deterministic checks validate schemas, criteria, source capability, and artifact identity before sealing. These checks do not judge scientific quality; peer feedback is optional, while Protected Holdout and reserved research decisions remain Human-controlled.
 
 ## Public scope
 
