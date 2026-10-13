@@ -2,32 +2,29 @@
 
 [English](RESEARCH_METHODOLOGY.md) · [繁體中文](RESEARCH_METHODOLOGY.zh-TW.md)
 
-研究流程刻意拆成多個階段，避免某個結果被拿去支持超出量測範圍的結論。
+研究流程逐步回答更強的問題；前一階段的證據不能直接推導出後一階段才有資格支持的結論。
 
 ```mermaid
 flowchart TD
-    A[市場事件資訊] --> B[事件後資訊演化]
-    B --> C[執行成本與可行性]
-    C --> D[策略生命週期]
-    D --> E[候選方案凍結]
-    E --> F[保護性留出驗證]
-    F --> G[最終研究決策]
+    A[Stage 1: 市場事件資訊] --> B[Stage 2: 事件後路徑]
+    B --> C[Stage 3: 執行成本]
+    C --> D[受限 Stage4A 設計準備]
+    D --> E[Human 授權的 Stage 4 Formal]
+    E --> F[候選方案凍結與保護性驗證]
 ```
 
-## 幾個核心規則
+## 研究規則與權限
 
-**只能使用當下已知的資料** — 研究程式不能看到決策時間點之後才會出現的資訊。
+**時間點一致的資料：** 研究決策只能使用當時已知的資訊；無法確認的資料缺口不能被默認有效。
 
-**預檢階段不讀未來結果** — 可行性檢查只能確認資料、設定與結構是否足夠，不能偷看未來表現。
+**Outcome-blind 準備：** 在接觸未來結果前，先檢查可行性、樣本、控制組與判定標準。首次 Git Seal 綁定精確的設定及權限產物。
 
-**確定性驗證後再封存** — schema、criteria 與凍結參照檢查會在首次 Git seal 前綁定確切 artifact。這些檢查驗證 artifact 格式與 authority，不代表科學設計品質已獲認可；同儕意見屬選用。
+**量測不等於晉級：** Formal 執行成功，不代表科學決策自動 `ADVANCE`。機械 Criteria 檢查封存標準；研究解讀另須考慮效果、不確定性、選擇偏差、覆蓋範圍與可支持的結論。
 
-**量測與判斷分離** — 正式研究跑完，不代表候選方案自動晉級。
+**科學審查不產生額外權限：** 對重要的研究設計及解讀，現行 Runbook 由主要 Research Agent 協調方法與證據兩種 Reviewer 視角。意見可協助改善科學判斷，但不構成獨立的機械 Gate、由 Host 證實的科學認可或 Human 授權。
 
-**接觸留出資料前先凍結** — 候選方案與評估規則必須先固定，之後才可以使用保護性留出資料。
+**自主研究有邊界：** Agent 依 Fresh Dispatch 可執行 Stage 1–3 Development Formal，以及受限的 Stage4A 設計準備。Stage 4 Formal、correctness/VOID、已消耗輪次修復、Forecast Evidence 與 Protected Holdout 都由 Human 控制。已使用的留出資料不能回頭調參。
 
-**不做事後救援** — 已經使用過的留出資料不能回頭拿來調參或修改規則。
+**Terminal 研究紀錄不等於部署：** Campaign 完成後，合法的 Terminal Lineage 清單可封存為 READY，再發布並由 GitHub 工作流程整合到 `main`。READY 與有利的 Development 結果都只屬研究證據來源，不代表策略核准、實際部署或資金使用權限。
 
-**研究依據可追溯** — 設定、研究產物與決策都必須能追溯到明確的版本與身分。
-
-平台也支援受控的自動研究流程。主要研究 Agent 可以依既定流程自主完成第一到第三階段的開發研究；deterministic validators 檢查 source capability、criteria 語意、證據 identity 與 frozen artifacts。這些檢查不會判定科學設計或解讀是否充分；同儕意見屬選用。自動化仍不能自行決定 correctness / VOID、修復已消耗輪次、使用 Protected Holdout，或執行 Stage 4 formal。
+Research 與 Trading 保留獨立權限邊界：任何機械通過、Agent 意見或 CI 整合，都不會把研究假說悄悄升級為正式交易策略。

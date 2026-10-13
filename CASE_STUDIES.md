@@ -2,22 +2,24 @@
 
 [English](CASE_STUDIES.md) · [繁體中文](CASE_STUDIES.zh-TW.md)
 
-## Data gaps are not guessed away
+These examples focus on engineering trade-offs rather than private signals, performance, or strategy outcomes.
 
-A missing candle does not automatically mean corruption or exchange downtime. The data layer keeps unresolved gaps unresolved unless there is enough provenance to classify them.
+## A missing candle is not evidence of a market closure
 
-The important part is that research rules do not become looser just because the data is inconvenient.
+A data gap can reflect missing collection, exchange downtime, or unresolved provenance. The data plane keeps unknown cases unresolved and prevents an incomplete sequence from being silently accepted as a continuous research window. **Trade-off:** fewer admissible observations in exchange for more defensible evidence.
 
-## An order timeout is not a failed order
+## An order timeout is not an order rejection
 
-If an order request times out, the exchange may still have received it. Retrying immediately can create a duplicate position.
+A timed-out request may already have reached the Exchange. The execution layer keeps an explicit `UNKNOWN` outcome and reconciles with Exchange and durable Journal state before any new action. **Trade-off:** pause or constrain execution rather than risk duplicate exposure.
 
-The execution model therefore has an explicit `UNKNOWN` state and requires reconciliation before retrying.
+## Shared capital needs one atomic decision
 
-## Deterministic checks do not certify scientific judgment
+In a multi-deployment host, two strategies can request the same account cash. Global exposure ceilings apply across deployments; optional per-deployment static budgets restrict each strategy further. The Portfolio layer checks and records reservations within a SQLite transaction, and a stable allocation order resolves competing entries. **Trade-off:** deterministic, conservative admission rather than optimistic independent budgets.
 
-The campaign validates artifact identity, config and criteria contracts, data readiness, formal provenance, and decision bindings. Those checks cannot establish that a hypothesis is scientifically useful, that its controls avoid confounding, or that its interpretation is persuasive. Independent agent review is optional advice and does not gate the workflow; Human judgment remains necessary for scientific decisions and reserved authority boundaries.
+## Strategy upgrades cannot abandon old positions
 
-## Automation stays inside research boundaries
+The same logical strategy can have multiple Manifest-derived deployment identities. A previous deployment can stop opening positions while retaining ownership of its exits and recovery obligations. It may be removed from the loaded set only after active state is resolved. Ambiguous legacy checkpoint ownership fails closed. **Trade-off:** more explicit migration steps in exchange for safer restart and version transitions.
 
-The autonomous campaign can coordinate Stage 1–3 Development Research and bounded Stage4A preparation, but it is not a shortcut around formal authority, Stage 4 formal authorization, or Protected Holdout controls.
+## Automation and scientific judgment are different responsibilities
+
+Deterministic validation verifies criteria, identity, admissible inputs, and artifact bindings; it cannot certify causal design or scientific merit. The Research Runbook uses methodology and evidence reviewers for substantive scientific critique, without making their agreement a mechanical workflow gate. Terminal results can be published through READY and integrated into Git history, but do not gain trading or protected-holdout authority. **Trade-off:** preserve useful autonomous throughput without mistaking automation for independent scientific confirmation.

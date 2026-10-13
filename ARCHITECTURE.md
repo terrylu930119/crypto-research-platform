@@ -2,29 +2,36 @@
 
 [English](ARCHITECTURE.md) · [繁體中文](ARCHITECTURE.zh-TW.md)
 
-The platform separates market data, research, and execution so that each layer can fail without silently changing the meaning of the others.
+The platform separates **market data**, **scientific research**, **strategy semantics**, and **trading authority**. Valid research evidence can inform a deployment decision, but cannot place an order or automatically authorize a deployment.
 
 ```mermaid
 flowchart TD
-    A[Binance market data] --> B[Validated local storage]
-    B --> C[Point-in-time research views]
-    C --> D[Research Agent + deterministic pipeline]
-    D --> E[Deterministic validation]
-    E --> F[Git-sealed research authority]
-    F --> G[Formal measurement and decisions]
-
-    A --> H[Exchange adapter]
-    H --> I[Testnet execution]
+    A[Binance Spot / USD-M research data] --> B[Validated storage and point-in-time views]
+    B --> C[Staged research and sealed evidence]
+    C --> D[Scientific disposition and Human boundaries]
+    D -. Explicit deployment decision .-> E[Strategy Catalog + Deployment Manifest]
+    E --> F[Shared Strategy Engine + TradingHost]
+    F --> G[Global / strategy Risk and Portfolio]
+    G --> H[ExecutionService]
+    H --> I[Shadow or Binance Spot Testnet]
+    F <--> J[SQLite Journal / checkpoint]
+    G <--> J
 ```
 
-## Main boundaries
+## Ownership and safety boundaries
 
-**Data** handles download, normalization, integrity checks, availability, and provenance.
+**Data plane.** Download, normalization, gap classification, availability, provenance, and strict point-in-time access. Unknown data quality is not silently declared valid.
 
-**Research** only consumes bounded data views. Formal measurement is separated from interpretation and stage advancement.
+**Research plane.** Stage 1–4 research capabilities separate measurement, interpretation, scientific disposition, and reserved authorization. Formal artifacts bind configuration, identity, and evidence. Autonomous campaigns operate only within their dispatched Stage 1–3 and bounded Stage4A preparation scope; READY integration records research history, not deployment approval.
 
-**Execution** uses typed domain models and `Decimal` for price, quantity, and balance calculations. Unconfirmed orders can enter an explicit `UNKNOWN` state instead of being retried blindly.
+**Shared strategy core.** Research projection and Trading share strategy definitions and lifecycle semantics (`Research → Strategy ← Trading`). The strategy engine never owns Exchange permissions.
 
-**Governance** binds formal runs and downstream transitions to tracked configs and sealed artifacts. Deterministic checks validate schema, criteria semantics, data readiness, and exact artifact identity before work advances. These checks do not establish that a scientific hypothesis or causal design is sound.
+**Deployment boundary.** A pinned Catalog entry and explicit Deployment Manifest define what Trading may load. One TradingHost may run multiple identified deployments, including separate deployments of the same strategy. Each deployment's signals, positions, checkpoints, and recovery obligations retain their own identity; the Exchange account is still shared.
 
-**Research automation** uses the repository's bounded control plane rather than bypassing it. Independent agent review is not a workflow gate. Human or peer critique may inform scientific judgment, but it does not create authority or replace canonical validation. After outcomes are measured, frozen methodology and evidence identity remain fixed; correctness, VOID, consumed-round repair, Stage 4 formal, and Protected Holdout decisions remain Human-controlled.
+**Risk and execution.** Global exposure limits and optional per-deployment static risk budgets bound new entries. Portfolio reservations are checked and persisted atomically in SQLite. TradingRuntime and ExecutionService retain the order authority; ambiguous Exchange outcomes become `UNKNOWN` and require reconciliation rather than blind retry.
+
+**Durability.** Exchange facts take precedence over the SQLite Journal, which takes precedence over process-local hot state. Restarts cannot erase unresolved obligations or silently reinterpret deployment ownership.
+
+## Limits
+
+Trading supports offline replay, Shadow, and gated **Spot Testnet** only: long-only, unleveraged, no LIVE or derivatives execution. B8 multi-deployment behavior has offline E2E coverage, not an online or unattended certification.

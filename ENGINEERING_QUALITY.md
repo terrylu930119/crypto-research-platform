@@ -2,27 +2,29 @@
 
 [English](ENGINEERING_QUALITY.md) · [繁體中文](ENGINEERING_QUALITY.zh-TW.md)
 
-The research rules are only useful if the code enforces them.
+Research and trading boundaries are meaningful only when the implementation and tests enforce them.
 
-## Development checks
+## Development verification
 
-- Python 3.12
-- strict `mypy` type checking
-- `Ruff` linting
-- `pytest`, including async and HTTP-boundary tests
+- Python 3.12, `mypy` type checking, `Ruff` linting, and `pytest`.
+- Unit and integration tests for data, research contracts, Exchange adapters, and typed risk/execution boundaries.
+- Offline end-to-end (E2E) tests exercise strategy projection, TradingHost behavior, recovery paths, and multi-deployment state isolation.
+- Explicit opt-in for online Testnet checks. Offline E2E success is **not** an online, GCP, unattended, or production certification.
 
-## Defensive design
+## Defensive invariants
 
-**Explicit failure states** — uncertain exchange responses are not treated as success or failure by guesswork.
+**Fail closed.** Missing provenance, invalid artifact identity, incompatible deployment contracts, stale risk inputs, or uncertain ownership block the affected operation instead of relaxing a rule.
 
-**Fail closed** — invalid identities, missing authority, malformed data, or unexpected drift stop the path instead of silently relaxing rules.
+**Point-in-time research.** Development measurement cannot silently access data outside its approved time or evidence scope; protected evidence is a separate authority.
 
-**Point-in-time boundaries** — research code cannot freely reach beyond the information available at a decision time.
+**Exact financial state.** Price, quantity, balance, and risk computations use `Decimal`-based representations. Global and deployment-level exposure checks precede order submission.
 
-**Exact monetary types** — price, quantity, and balance calculations use `Decimal` rather than binary floating point.
+**Atomic allocation.** A shared Portfolio and SQLite Journal coordinate reservations across multiple deployments. Deterministic admission order prevents market-update arrival order from redefining capital allocation.
 
-## Reproducibility
+**Recoverable uncertainty.** Timeouts and ambiguous orders remain `UNKNOWN` pending reconciliation. Durable checkpoints, order identities, reservations, and positions survive process restarts; unproven deployment ownership is not guessed.
 
-Formal research is tied to tracked configs, repository state, validated artifacts, and explicit identities. A result should be explainable from the inputs and authority that produced it.
+## Traceability
 
-Tests focus heavily on boundary failures: data gaps, future-data access, artifact drift, uncertain order state, and invalid research transitions.
+Formal research binds Git-tracked configs, frozen evidence, and exact run identities. Trading deployments require pinned strategy/catalog semantics and explicit manifests; research outcomes alone never grant execution rights.
+
+These tests demonstrate engineered boundaries, **not** profitable strategy performance or authorization to place real-money orders.

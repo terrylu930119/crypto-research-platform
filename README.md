@@ -1,26 +1,25 @@
-# Crypto Research Platform
+# Crypto Research and Controlled Trading Platform
 
 [English](README.md) · [繁體中文](README.zh-TW.md)
 
-A private Python project for researching crypto trading ideas with an emphasis on reproducibility, data correctness, and controlled validation.
+A private Python platform for studying crypto-market hypotheses, rejecting unsupported claims, and developing controlled strategy execution. It connects reproducible research to a separately authorized trading system; a research result never grants permission to deploy or place orders.
 
-The goal is not to collect backtests. The system is built to make it easier to reject weak ideas without contaminating later evidence.
+## What the platform implements
 
-## What is in the platform
+- **Data and evidence:** Binance Spot and USD-M research data, provenance checks, point-in-time views, and outcome-blind readiness checks.
+- **Governed research:** staged measurement, frozen criteria and artifacts, explicit scientific decisions, and protected evidence boundaries.
+- **Autonomous Development Research:** bounded Stage 1–3 campaigns and Stage4A design preparation, using deterministic validation and a scientific collaboration process. Completed campaign inventories can move through READY publication and GitHub integration.
+- **Shared strategy semantics:** a neutral strategy engine used for research projection and trading, with explicit catalog and deployment-manifest bindings.
+- **Controlled trading:** replay, Shadow and gated Binance Spot Testnet execution. A multi-deployment host supports global and per-deployment risk limits, atomic reservations, durable state, exchange reconciliation, and recovery.
+- **Engineering checks:** type checking, linting, unit tests, integration tests, and offline end-to-end (E2E) tests.
 
-- Binance Spot and USD-M market data pipelines
-- point-in-time research views
-- staged research from market-event evidence to execution economics and strategy lifecycle
-- bounded autonomous Development Research with deterministic validation and authority checks
-- Git-bound configs, artifacts, and research decisions
-- Testnet execution with explicit handling for uncertain order state
-- strict typing, linting, and automated tests
+## What is *not* claimed
 
-Agent-operated Development Research is controlled by the same research boundaries: deterministic checks validate schemas, criteria, source capability, and artifact identity before sealing. These checks do not judge scientific quality; peer feedback is optional, while Protected Holdout and reserved research decisions remain Human-controlled.
+This is not a live production trading service. There are **no approved production strategies**. The unattended Testnet runtime and multi-deployment functionality are implemented, but B8 online Testnet behavior and GCP unattended certification have not been established by the offline tests. Production order execution, futures execution, and live capital authority are outside the current trading scope.
 
 ## Public scope
 
-The production repository is private. This public-facing material describes the architecture and research method, but intentionally excludes strategy hypotheses, parameters, research outcomes, and protected evidence.
+The source repository is private. These pages explain engineering boundaries and design decisions without publishing strategy hypotheses, exact rules, parameters, measured outcomes, protected holdout evidence, or operational secrets.
 
 - [Architecture](ARCHITECTURE.md)
 - [Research method](RESEARCH_METHODOLOGY.md)

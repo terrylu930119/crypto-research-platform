@@ -2,29 +2,36 @@
 
 [English](ARCHITECTURE.md) · [繁體中文](ARCHITECTURE.zh-TW.md)
 
-平台把市場資料、研究與下單執行拆成不同邊界。某一層出問題時，不應默默改變其他層的行為或研究結論。
+平台把**市場資料、科學研究、策略語意與交易權限**分開。研究結果可以作為部署判斷的依據，卻不能直接觸發部署或取得送單權限。
 
 ```mermaid
 flowchart TD
-    A[Binance 市場資料] --> B[已驗證的本地資料]
-    B --> C[受時間邊界限制的研究資料]
-    C --> D[研究 Agent 與確定性研究流程]
-    D --> E[封存前的確定性驗證]
-    E --> F[寫入 Git 的研究依據]
-    F --> G[正式量測與研究決策]
-
-    A --> H[交易所介面層]
-    H --> I[測試網下單]
+    A[Binance Spot / USD-M 研究資料] --> B[已驗證儲存與時間點資料視圖]
+    B --> C[分階段研究與封存證據]
+    C --> D[科學決策與 Human 權限邊界]
+    D -. 明確部署決定 .-> E[Strategy Catalog + Deployment Manifest]
+    E --> F[共用策略引擎 + TradingHost]
+    F --> G[全域 / 部署風控與 Portfolio]
+    G --> H[ExecutionService]
+    H --> I[Shadow 或 Binance Spot Testnet]
+    F <--> J[SQLite Journal / Checkpoint]
+    G <--> J
 ```
 
-## 主要邊界
+## 模組責任與安全邊界
 
-**資料層**負責下載、標準化、完整性檢查、交易時段判定與來源追蹤。
+**資料層：** 下載、標準化、資料缺口分類、可用性、來源追蹤與時間點一致的資料存取。無法確認的資料品質不會被默認為有效。
 
-**研究層**只能使用受時間邊界限制的資料。正式量測、研究解讀與是否進入下一階段分開處理。
+**研究層：** Stage 1–4 研究能力將量測、解讀、科學決策與保留授權分開。Formal Artifact 綁定設定、身分及證據。自主 Campaign 僅能在 fresh dispatch 授權的 Stage 1–3 與受限 Stage4A 設計準備範圍內運作；READY 整合的是研究紀錄，不代表核准部署。
 
-**執行層**使用強型別資料模型，價格、數量與餘額以 `Decimal` 計算。無法確認結果的委託會進入 `UNKNOWN` 狀態，而不是直接重試。
+**共用策略核心：** Research Projection 與 Trading 共用策略定義及生命週期語意（`Research → Strategy ← Trading`），策略引擎本身沒有交易所權限。
 
-**治理層**把正式研究、後續階段與版本控制中的設定及研究產物綁定。deterministic validators 在首次 Git seal 前檢查 schema、criteria 語意、資料能力與 exact artifact identity。這些檢查驗證格式與 authority，不代表科學假說或因果設計已獲認可；同儕意見屬選用。
+**部署邊界：** 由固定的 Catalog Entry 與明確 Deployment Manifest 決定載入內容。TradingHost 可同時管理多個獨立 Deployment，同一策略也可有不同部署身分。訊號、持倉、Checkpoint 與復原義務依 Deployment 隔離，但 Exchange 帳戶仍共用。
 
-**自動研究**不會繞過這些邊界。主要研究 Agent 依 bounded control plane 完成 Stage 1–3 開發研究，並可在條件符合時完成 Stage4A 準備。量測後 frozen methodology 與 evidence identity 維持固定；correctness、VOID、已消耗輪次修復、Stage 4 formal 與 Protected Holdout 仍由 Human 決定。
+**風控與執行：** 全域曝險上限和可選的部署級靜態風險預算限制新倉。Portfolio 的資金預留由 SQLite 原子核對與持久化；Runtime、ExecutionService 維持唯一合法送單路徑。交易所回應不明時保留 `UNKNOWN`，先對帳而非盲目重送。
+
+**持久化：** 狀態權威依序為「Exchange 事實 ＞ SQLite Journal ＞ Process 記憶體狀態」。重啟不得抹除未完成義務，或自行推測持倉所屬的部署身分。
+
+## 現階段限制
+
+Trading 目前僅支援離線重播、Shadow 與受控 **Spot Testnet**：僅做多、不使用槓桿，沒有 LIVE 或衍生品交易權限。B8 多部署已有離線 E2E 覆蓋，但不代表取得線上或無人值守認證。
