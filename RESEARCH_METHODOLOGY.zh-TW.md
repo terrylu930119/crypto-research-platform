@@ -21,7 +21,7 @@ flowchart TD
 
 **量測不等於晉級：** Formal 執行成功，不代表科學決策自動 `ADVANCE`。機械 Criteria 檢查封存標準；研究解讀另須考慮效果、不確定性、選擇偏差、覆蓋範圍與可支持的結論。
 
-**科學審查不產生額外權限：** 對重要的研究設計及解讀，現行 Runbook 由主要 Research Agent 協調方法與證據兩種 Reviewer 視角。意見可協助改善科學判斷，但不構成獨立的機械 Gate、由 Host 證實的科學認可或 Human 授權。
+**科學審查不產生額外權限：** 對重要的研究設計及解讀，`research-campaign-operator` Skill 要求主要 Research Agent 協調方法與證據兩種 Reviewer 視角。意見可協助改善科學判斷，但不構成獨立的機械 Gate、由 Host 證實的科學認可或 Human 授權。
 
 **自主研究有邊界：** Agent 依 Fresh Dispatch 可執行 Stage 1–3 Development Formal，以及受限的 Stage4A 設計準備。Stage 4 Formal、correctness/VOID、已消耗輪次修復、Forecast Evidence 與 Protected Holdout 都由 Human 控制。已使用的留出資料不能回頭調參。
 

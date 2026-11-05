@@ -22,4 +22,4 @@
 
 ## 自動化驗證，不等於科學判斷
 
-確定性驗證能核對 Criteria、Artifact Identity、資料可用性及封存依據，卻無法證明因果設計或科學價值。Research Runbook 在重要的科學設計與解讀決策中安排方法與證據 Reviewer 提供獨立意見，但不把兩人同意當成機械閘門。Terminal 結果可經 READY 整合進 Git 歷史，卻不會因此取得下單或 Protected Holdout 權限。**取捨：** 保留自主研究效率，同時不把流程自動化誤認為獨立科學確認。
+確定性驗證能核對 Criteria、Artifact Identity、資料可用性及封存依據，卻無法證明因果設計或科學價值。`research-campaign-operator` Skill 在重要的科學設計與解讀決策中安排方法與證據 Reviewer 提供獨立意見，但不把兩人同意當成機械閘門。Terminal 結果可經 READY 整合進 Git 歷史，卻不會因此取得下單或 Protected Holdout 權限。**取捨：** 保留自主研究效率，同時不把流程自動化誤認為獨立科學確認。
